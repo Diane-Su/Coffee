@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         startRunningAnimation();
-        const bubbles = []; // 儲存當前的泡泡
+        const bubbles = []; // 存储当前的泡泡
 
         document.addEventListener('keydown', function (e) {
             if (e.key === 'ArrowUp' && !isColliding) {
@@ -117,17 +117,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }, 16);
 
-                // 創建泡泡
+                // 创建泡泡
                 const bubbleImage = document.createElement('img');
                 bubbleImage.src = './asset/bubble.png';
                 bubbleImage.style.position = 'absolute';
                 bubbleImage.style.bottom = playerImage.style.bottom;
-                bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家的位置
+                bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基于玩家位置
                 gameArea.appendChild(bubbleImage);
                 bubbles.push(bubbleImage);
             }
 
-            if (e.key === ' ' && !isAttacking && !isColliding) {
+            if (e.key === ' ' && !isAttacking && !isColliding) { // 這裡的 'Space' 改成 ' '
                 isAttacking = true;
                 clearInterval(runningAnimation);
                 attackAnimationFrame = 1;
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         document.addEventListener('keyup', function (e) {
-            if (e.key === ' ' && isAttacking) {
+            if (e.key === ' ' && isAttacking) { // 這裡的 'Space' 改成 ' '
                 isAttacking = false;
                 clearInterval(attackAnimation);
                 startRunningAnimation();
@@ -157,14 +157,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setInterval(function () {
             bubbles.forEach((bubble, index) => {
-                bubble.style.left = `${parseInt(bubble.style.left) + 5}px`; // 泡泡向前移動的速度
+                bubble.style.left = `${parseInt(bubble.style.left) + 5}px`; // 泡泡向前移动的速度
 
-                if (parseInt(bubble.style.left) > 1000) { // 當泡泡超出遊戲視窗
+                if (parseInt(bubble.style.left) > 1000) { // 当泡泡超出屏幕
                     gameArea.removeChild(bubble);
                     bubbles.splice(index, 1);
                 }
 
-                // 泡泡和敵人的碰撞偵測
+                // 泡泡和敌人的碰撞检测
                 enemies.forEach((enemy, enemyIndex) => {
                     const bubbleRect = bubble.getBoundingClientRect();
                     const enemyRect = enemy.getBoundingClientRect();
@@ -173,9 +173,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         bubbleRect.right > enemyRect.left &&
                         bubbleRect.top < enemyRect.bottom &&
                         bubbleRect.bottom > enemyRect.top) {
-                        enemy.src = './asset/obstacle/devil/hurt/enemy_hurt.gif'; // 更改敵人圖片為受傷狀態
+                        enemy.src = './asset/obstacle/devil/hurt/enemy_hurt.gif'; // 更改敌人图片为受伤状态
 
-                        setTimeout(() => { // 1秒后移除敵人
+                        setTimeout(() => { // 1秒后移除敌人
                             gameArea.removeChild(enemy);
                             enemies.splice(enemyIndex, 1);
                         }, 1000);
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
-                // 泡泡和補充包的碰撞偵測
+                // 泡泡和补给包的碰撞检测
                 powerUps.forEach((powerUp, powerUpIndex) => {
                     const bubbleRect = bubble.getBoundingClientRect();
                     const powerUpRect = powerUp.getBoundingClientRect();
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         bubbleRect.right > powerUpRect.left &&
                         bubbleRect.top < powerUpRect.bottom &&
                         bubbleRect.bottom > powerUpRect.top) {
-                        // 移除補充包
+                        // 移除补给包
                         gameArea.removeChild(powerUp);
                         powerUps.splice(powerUpIndex, 1);
 
