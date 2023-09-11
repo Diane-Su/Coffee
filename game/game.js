@@ -386,14 +386,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function retryGame() {
         // 重新開始遊戲邏輯...
-        // 記得在這裡也清除所有 setInterval 和 setTimeout
+        // 清除所有 setInterval 和 setTimeout
         clearInterval(backgroundScrollInterval);
         clearInterval(obstacleMoveInterval);
         clearInterval(runningAnimation);
         clearTimeout(runningAnimationTimeout);
         clearInterval(enemyMoveInterval);
-        // 清除之前的 setInterval
+        // 清除生成元素的 setInterval
         clearInterval(generateObstacleInterval);
         clearInterval(generateEnemyInterval);
+        clearInterval(generatePowerUpInterval);
     }
 });
