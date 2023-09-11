@@ -121,13 +121,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 const bubbleImage = document.createElement('img');
                 bubbleImage.src = './asset/bubble.png';
                 bubbleImage.style.position = 'absolute';
-                bubbleImage.style.bottom = playerImage.style.bottom;
+                // 設定泡泡的y座標為玩家的y座標加上玩家的高度
+                const playerHeight = playerImage.getBoundingClientRect().height;
+                bubbleImage.style.bottom = `${parseInt(playerImage.style.bottom) + playerHeight}px`;
                 bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家位置
                 gameArea.appendChild(bubbleImage);
                 bubbles.push(bubbleImage);
             }
 
-            if (e.key === ' ' && !isAttacking && !isColliding) { 
+            if (e.key === ' ' && !isAttacking && !isColliding) {
                 isAttacking = true;
                 clearInterval(runningAnimation);
                 attackAnimationFrame = 1;
@@ -148,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         document.addEventListener('keyup', function (e) {
-            if (e.key === ' ' && isAttacking) { 
+            if (e.key === ' ' && isAttacking) {
                 isAttacking = false;
                 clearInterval(attackAnimation);
                 startRunningAnimation();
