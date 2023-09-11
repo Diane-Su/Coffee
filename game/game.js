@@ -117,16 +117,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }, 16);
 
-                // 創建泡泡
-                const bubbleImage = document.createElement('img');
-                bubbleImage.src = './asset/bubble.png';
-                bubbleImage.style.position = 'absolute';
-                // 設定泡泡的y座標為玩家的y座標加上玩家的高度
-                const playerHeight = playerImage.getBoundingClientRect().height;
-                bubbleImage.style.bottom = `${parseInt(playerImage.style.bottom) + playerHeight}px`;
-                bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家位置
-                gameArea.appendChild(bubbleImage);
-                bubbles.push(bubbleImage);
+                // 泡泡的發射條件改為按下空白鍵
+                if (e.key === ' ' && !isAttacking && !isColliding) {
+                    // 創建泡泡
+                    const bubbleImage = document.createElement('img');
+                    bubbleImage.src = './asset/bubble.png';
+                    bubbleImage.style.position = 'absolute';
+                    const playerHeight = playerImage.getBoundingClientRect().height;
+                    bubbleImage.style.bottom = `${parseInt(playerImage.style.bottom) + playerHeight}px`;
+                    bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家位置
+                    gameArea.appendChild(bubbleImage);
+                    bubbles.push(bubbleImage);
+
+                    isAttacking = true;
+                    clearInterval(runningAnimation);
+                    attackAnimationFrame = 1;
+                    playerImage.src = `./asset/player/player_attack${attackAnimationFrame}.png`;
+
+                    attackAnimation = setInterval(function () {
+                        attackAnimationFrame++;
+                        if (attackAnimationFrame > 3) {
+                            attackAnimationFrame = 1;
+                            clearInterval(attackAnimation);
+                            isAttacking = false;
+                            startRunningAnimation();
+                            return;
+                        }
+                        playerImage.src = `./asset/player/player_attack${attackAnimationFrame}.png`;
+                    }, 150);
+                }
             }
 
             if (e.key === ' ' && !isAttacking && !isColliding) {
