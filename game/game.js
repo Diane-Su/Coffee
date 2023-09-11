@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let generateEnemyInterval;
     let enemyMoveInterval; // 用來存儲怪物移動的 setInterval
     const enemies = []; // 儲存當前的怪物
-    let enemyAnimationFrame = 1; // 怪物動畫幀計數
     const startTime = new Date().getTime();  // 紀錄遊戲開始的時間
 
     function startGame() {
@@ -77,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         startRunningAnimation();
         const bubbles = []; // 儲存當前的泡泡
+        let isAttacking = false;
 
         document.addEventListener('keydown', function (e) {
             if (e.key === 'ArrowUp' && !isColliding) {
@@ -116,36 +116,34 @@ document.addEventListener('DOMContentLoaded', function () {
                         }, 16);
                     }
                 }, 16);
+            }
 
-                // 泡泡的發射條件改為按下空白鍵
-                if (e.key === ' ' && !isAttacking && !isColliding) {
-                    // 創建泡泡
-                    const bubbleImage = document.createElement('img');
-                    bubbleImage.src = './asset/bubble.png';
-                    bubbleImage.style.position = 'absolute';
-                    const playerHeight = playerImage.getBoundingClientRect().height;
-                    bubbleImage.style.bottom = `${parseInt(playerImage.style.bottom) + playerHeight}px`;
-                    bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家位置
-                    gameArea.appendChild(bubbleImage);
-                    bubbles.push(bubbleImage);
+            if (e.key === ' ' && !isAttacking && !isColliding) {
+                // 創建泡泡
+                const bubbleImage = document.createElement('img');
+                bubbleImage.src = './asset/bubble.png';
+                bubbleImage.style.position = 'absolute';
+                const playerHeight = playerImage.getBoundingClientRect().height;
+                bubbleImage.style.bottom = `${parseInt(playerImage.style.bottom) + 25}px`;
+                bubbleImage.style.left = `${parseInt(playerImage.style.left) + 50}px`; // 基於玩家位置
+                gameArea.appendChild(bubbleImage);
+                bubbles.push(bubbleImage);
+                isAttacking = true;
+                clearInterval(runningAnimation);
+                attackAnimationFrame = 1;
+                playerImage.src = `./asset/player/player_attack${attackAnimationFrame}.png`;
 
-                    isAttacking = true;
-                    clearInterval(runningAnimation);
-                    attackAnimationFrame = 1;
+                attackAnimation = setInterval(function () {
+                    attackAnimationFrame++;
+                    if (attackAnimationFrame > 3) {
+                        attackAnimationFrame = 1;
+                        clearInterval(attackAnimation);
+                        isAttacking = false;
+                        startRunningAnimation();
+                        return;
+                    }
                     playerImage.src = `./asset/player/player_attack${attackAnimationFrame}.png`;
-
-                    attackAnimation = setInterval(function () {
-                        attackAnimationFrame++;
-                        if (attackAnimationFrame > 3) {
-                            attackAnimationFrame = 1;
-                            clearInterval(attackAnimation);
-                            isAttacking = false;
-                            startRunningAnimation();
-                            return;
-                        }
-                        playerImage.src = `./asset/player/player_attack${attackAnimationFrame}.png`;
-                    }, 150);
-                }
+                }, 150);
             }
 
             if (e.key === ' ' && !isAttacking && !isColliding) {
