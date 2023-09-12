@@ -77,3 +77,18 @@ body {
 .centeredButton:hover {
     background-color: #45a049;
 }
+
+.hidden {
+    display: none;
+}
+
+.gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: white;
+    z-index: 20;
+    /* 確保在所有其他元素之上 */
+}

@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
             obstacleImage.style.left = '945px'; // 從右側開始
             gameArea.appendChild(obstacleImage);
             obstacles.push(obstacleImage);
+            obstacleImage.isHit = false;
 
             // 隨機調整生成障礙物的間隔時間
             const randomObstacleTime = 6000 + Math.random() * 4000;  // 6秒到10秒之間
@@ -258,13 +259,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (parseInt(obstacle.style.left) < -50) {
                     gameArea.removeChild(obstacle);
                     obstacles.splice(index, 1);
+                    obstacle.isHit = false;  // 重置
                 }
-
-                // 碰撞檢測
+                // 障礙物碰撞檢測
                 const playerRect = playerImage.getBoundingClientRect();
                 const obstacleRect = obstacle.getBoundingClientRect();
 
-                if (playerRect.left + BUFFER < obstacleRect.right &&
+                if (!obstacle.isHit &&
+                    playerRect.left + BUFFER < obstacleRect.right &&
                     playerRect.right - BUFFER > obstacleRect.left &&
                     playerRect.top + BUFFER < obstacleRect.bottom &&
                     playerRect.bottom - BUFFER > obstacleRect.top) {
@@ -272,6 +274,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     playerImage.src = './asset/obstacle/chi_jump3.png';
                     clearInterval(runningAnimation);
                     clearTimeout(runningAnimationTimeout);
+                    hideHeart(); // 隱藏一顆愛心
+                    obstacle.isHit = true; // 標記該障礙物已被撞擊
                     runningAnimationTimeout = setTimeout(() => {
                         isColliding = false;
                         if (!isColliding) {
@@ -293,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
             gameArea.appendChild(enemyImage);
             enemies.push(enemyImage);
             let randomEnemyTime;
+            enemyImage.isHit = false;
 
             if (elapsedTime < 5) {
                 randomEnemyTime = 8000;  // 8秒
@@ -316,12 +321,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (parseInt(enemy.style.left) < -100) {
                     gameArea.removeChild(enemy);
                     enemies.splice(index, 1);
+                    enemy.isHit = false;  // 重置
                 }
-                // 碰撞檢測
+                // 怪物碰撞檢測
                 const playerRect = playerImage.getBoundingClientRect();
                 const enemyRect = enemy.getBoundingClientRect();
 
-                if (playerRect.left + MBUFFER < enemyRect.right &&
+                if (!enemy.isHit &&
+                    playerRect.left + MBUFFER < enemyRect.right &&
                     playerRect.right - MBUFFER > enemyRect.left &&
                     playerRect.top + MBUFFER < enemyRect.bottom &&
                     playerRect.bottom - MBUFFER > enemyRect.top) {
@@ -329,15 +336,28 @@ document.addEventListener('DOMContentLoaded', function () {
                     playerImage.src = './asset/obstacle/chi_jump3.png';
                     clearInterval(runningAnimation);
                     clearTimeout(runningAnimationTimeout);
+                    hideHeart(); // 隱藏一顆愛心
+                    enemy.isHit = true; // 標記該怪物已被撞擊
                     runningAnimationTimeout = setTimeout(() => {
                         isColliding = false;
-                        if (!isColliding) {  // <-- 這裡進行了修改，只有當 isColliding 為 false 時才恢復動畫
+                        if (!isColliding) {
                             startRunningAnimation();
                         }
                     }, 1000);
                 }
             });
         }, 150); // 更新怪物的動畫
+
+        function hideHeart() {
+            const visibleHearts = document.querySelectorAll('.heart:not(.hidden)');
+            if (visibleHearts.length > 0) {
+                visibleHearts[visibleHearts.length - 1].classList.add('hidden');
+            }
+
+            if (visibleHearts.length === 1) { // 只剩下一顆愛心時
+                gameOver();
+            }
+        }
 
         const powerUps = []; // 儲存當前的補充包
         let generatePowerUpInterval; // 儲存生成補充包的setInterval的引用
@@ -396,5 +416,16 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(generateObstacleInterval);
         clearInterval(generateEnemyInterval);
         clearInterval(generatePowerUpInterval);
+    }
+
+    function gameOver() {
+        document.querySelector('.gameOver').classList.remove('hidden');
+        // 停止所有的動畫和生成障礙物或怪物的計時器
+        clearInterval(generateObstacleInterval);
+        clearInterval(obstacleMoveInterval);
+        clearInterval(generateEnemyInterval);
+        clearInterval(enemyMoveInterval);
+        clearInterval(runningAnimation);
+        clearTimeout(runningAnimationTimeout);
     }
 });
