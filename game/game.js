@@ -349,9 +349,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 150); // 更新怪物的動畫
 
         function hideHeart() {
-            const visibleHearts = document.querySelectorAll('.heart:not(.hidden)');
+            const visibleHearts = document.querySelectorAll('.heart:not(.transparent)');
             if (visibleHearts.length > 0) {
-                visibleHearts[visibleHearts.length - 1].classList.add('hidden');
+                visibleHearts[visibleHearts.length - 1].style.backgroundImage = "url('asset/transparent.png')";
+                visibleHearts[visibleHearts.length - 1].classList.add('transparent');
             }
 
             if (visibleHearts.length === 1) { // 只剩下一顆愛心時

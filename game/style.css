@@ -92,3 +92,7 @@ body {
     z-index: 20;
     /* 確保在所有其他元素之上 */
 }
+
+.transparent {
+    opacity: 0.5;
+}
