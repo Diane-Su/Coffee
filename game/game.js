@@ -179,9 +179,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setInterval(function () {
             bubbles.forEach((bubble, index) => {
-                bubble.style.left = `${parseInt(bubble.style.left) + 5}px`; // 泡泡向前移動的速度
+                bubble.style.left = `${parseInt(bubble.style.left) + 5}px`;
 
-                if (parseInt(bubble.style.left) > 1000) { // 當泡泡超出遊戲視窗
+                if (parseInt(bubble.style.left) > 1000) {
                     gameArea.removeChild(bubble);
                     bubbles.splice(index, 1);
                 }
@@ -194,19 +194,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (bubbleRect.left < enemyRect.right &&
                         bubbleRect.right > enemyRect.left &&
                         bubbleRect.top < enemyRect.bottom &&
-                        bubbleRect.bottom > enemyRect.top) {
-                        enemy.src = './asset/obstacle/devil/hurt/enemy_hurt.gif'; // 更改敵人圖片為受傷狀態
+                        bubbleRect.bottom > enemyRect.top &&
+                        enemyRect.right > 0 &&   // 確保怪物在遊戲視窗內
+                        enemyRect.left < 945) { // 945 是 gameArea 的寬度
+                        enemy.src = './asset/obstacle/devil/hurt/enemy_hurt.gif';
 
-                        setTimeout(() => { // 1秒后移除敵人
+                        setTimeout(() => {
                             gameArea.removeChild(enemy);
                             enemies.splice(enemyIndex, 1);
                         }, 1000);
 
-                        // 移除泡泡
                         gameArea.removeChild(bubble);
                         bubbles.splice(index, 1);
-                        playerScore += 1;  // 增加得分
-                        document.getElementById("playerScore").textContent = playerScore;  // 更新得分顯示
+                        playerScore += 1;
+                        document.getElementById("playerScore").textContent = playerScore;
                     }
                 });
 
@@ -218,16 +219,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (bubbleRect.left < powerUpRect.right &&
                         bubbleRect.right > powerUpRect.left &&
                         bubbleRect.top < powerUpRect.bottom &&
-                        bubbleRect.bottom > powerUpRect.top) {
-                        // 移除補充包
+                        bubbleRect.bottom > powerUpRect.top &&
+                        powerUpRect.right > 0 &&    // 確保補充包在遊戲視窗內
+                        powerUpRect.left < 948) {  // 945 是 gameArea 的寬度
                         gameArea.removeChild(powerUp);
                         powerUps.splice(powerUpIndex, 1);
 
-                        // 移除泡泡
                         gameArea.removeChild(bubble);
                         bubbles.splice(index, 1);
 
-                        // 更新補充包數量
                         powerUpCount++;
                         document.getElementById("powerUpCounter").textContent = powerUpCount;
                     }
