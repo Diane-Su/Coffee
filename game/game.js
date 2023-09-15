@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 定義兩個新的變量來存儲setInterval的引用
     let generateObstacleInterval;
     let generateEnemyInterval;
+    let generatePowerUpInterval;
     let enemyMoveInterval; // 用來存儲怪物移動的 setInterval
     const enemies = []; // 儲存當前的怪物
     const startTime = new Date().getTime();  // 紀錄遊戲開始的時間
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         gameArea.appendChild(bg1);
         gameArea.appendChild(bg2);
         let playerScore = 0;
+        let powerUpCount = 0;
 
         clearInterval(backgroundScrollInterval);
         backgroundScrollInterval = setInterval(function () {
@@ -224,6 +226,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         // 移除泡泡
                         gameArea.removeChild(bubble);
                         bubbles.splice(index, 1);
+
+                        // 更新補充包數量
+                        powerUpCount++;
+                        document.getElementById("powerUpCounter").textContent = powerUpCount;
                     }
                 });
             });

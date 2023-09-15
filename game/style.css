@@ -63,6 +63,17 @@ body {
     /* 確保在 statusBar 的上面 */
 }
 
+.powerUpCount {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    /* 或其他合適的位置 */
+    font-size: 20px;
+    color: white;
+    z-index: 11;
+    /* 確保在 statusBar 的上面 */
+}
+
 .gameArea {
     width: 945px;
     height: 370px;
