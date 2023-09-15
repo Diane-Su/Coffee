@@ -53,6 +53,16 @@ body {
     /* 設定愛心之間的間距 */
 }
 
+.score {
+    position: absolute;
+    top: 20px;
+    right: 440px;
+    font-size: 20px;
+    color: white;
+    z-index: 11;
+    /* 確保在 statusBar 的上面 */
+}
+
 .gameArea {
     width: 945px;
     height: 370px;

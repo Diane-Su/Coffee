@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         bg2.style.left = '945px'; // 初始化位置為右邊
         gameArea.appendChild(bg1);
         gameArea.appendChild(bg2);
+        let playerScore = 0;
 
         clearInterval(backgroundScrollInterval);
         backgroundScrollInterval = setInterval(function () {
@@ -202,6 +203,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         // 移除泡泡
                         gameArea.removeChild(bubble);
                         bubbles.splice(index, 1);
+                        playerScore += 1;  // 增加得分
+                        document.getElementById("playerScore").textContent = playerScore;  // 更新得分顯示
                     }
                 });
 
@@ -428,5 +431,7 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(enemyMoveInterval);
         clearInterval(runningAnimation);
         clearTimeout(runningAnimationTimeout);
+        const gameOverDiv = document.querySelector(".gameOver");
+        gameOverDiv.innerHTML = `Game Over<br>分數: ${playerScore}`;
     }
 });
