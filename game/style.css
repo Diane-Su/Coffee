@@ -86,17 +86,18 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #FFF;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+    /* 根據您的圖片大小調整以下兩行 */
+    width: 150px;
+    /* 或其他您希望的寬度 */
+    height: auto;
+    /* 保持圖片的比例 */
 }
 
 .centeredButton:hover {
-    background-color: #45a049;
+    opacity: 0.8;
+    /* 為鼠標懸停在圖片上時增加一個淡出效果 */
 }
 
 .hidden {
