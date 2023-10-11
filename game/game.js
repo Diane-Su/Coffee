@@ -259,6 +259,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         bubbleRect.bottom > powerUpRect.top &&
                         powerUpRect.right > 0 &&    // 確保補充包在遊戲視窗內
                         powerUpRect.left < 948) {  // 945 是 gameArea 的寬度
+                        // 播放回血音效
+                        const healthRecoverySound = document.getElementById('healthRecoverySound');
+                        healthRecoverySound.currentTime = 0; // 確保每次都從頭開始播放
+                        healthRecoverySound.play();
+
                         gameArea.removeChild(powerUp);
                         powerUps.splice(powerUpIndex, 1);
 
