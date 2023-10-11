@@ -111,6 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 clearInterval(runningAnimation); // 停止跑步動畫
                 clearInterval(jumpAnimation); // 停止之前的跳躍動畫
                 clearInterval(fallAnimation); // 停止之前的下落動畫
+                // 播放跳躍音效
+                const jumpSound = document.getElementById('jumpSound');
+                jumpSound.currentTime = 0; // 確保每次都從頭開始播放
+                jumpSound.play();
                 playerImage.src = `./asset/player/player_jump1.png`;
                 jumpHeight = 100; // 固定跳躍高度為100px
                 let jumpFrame = 1;
