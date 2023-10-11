@@ -151,6 +151,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (e.key === ' ' && !isAttacking && !isColliding) {
+                // 播放泡泡音效
+                const bubbleSound = document.getElementById('bubbleSound');
+                bubbleSound.currentTime = 0; // 確保每次都從頭開始播放
+                bubbleSound.play();
                 // 創建泡泡
                 const bubbleImage = document.createElement('img');
                 bubbleImage.src = './asset/bubble.png';
