@@ -230,6 +230,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         bubbleRect.bottom > enemyRect.top &&
                         enemyRect.right > 0 &&   // 確保怪物在遊戲視窗內
                         enemyRect.left < 945) { // 945 是 gameArea 的寬度
+                        // 播放怪物死亡音效
+                        const enemyDeathSound = document.getElementById('enemyDeathSound');
+                        enemyDeathSound.currentTime = 0; // 確保每次都從頭開始播放
+                        enemyDeathSound.play();
                         enemy.src = './asset/obstacle/devil/hurt/enemy_hurt.gif';
 
                         setTimeout(() => {
