@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
     retryButton.addEventListener('click', retryGame);
     let backgroundScrollInterval; // 用來存儲背景滾動的 setInterval
     let obstacleMoveInterval; // 用來存儲障礙物移動的 setInterval
+    let currentMusicIndex = 0; // 目前播放的音樂索引
+    const musicElements = [ // 音樂元素列表
+        document.getElementById('bgMusic1'),
+        document.getElementById('bgMusic2'),
+        document.getElementById('bgMusic3'),
+        document.getElementById('bgMusic4')
+    ];
 
     // 定義兩個新的變量來存儲setInterval的引用
     let generateObstacleInterval;
@@ -18,6 +25,23 @@ document.addEventListener('DOMContentLoaded', function () {
     let enemyMoveInterval; // 用來存儲怪物移動的 setInterval
     const enemies = []; // 儲存當前的怪物
     const startTime = new Date().getTime();  // 紀錄遊戲開始的時間
+
+    function playNextMusic() {
+        // 停止目前的音樂
+        musicElements[currentMusicIndex].pause();
+        musicElements[currentMusicIndex].currentTime = 0;
+
+        // 更新到下一首音樂
+        currentMusicIndex = (currentMusicIndex + 1) % musicElements.length;
+
+        // 播放新的音樂
+        musicElements[currentMusicIndex].play();
+    }
+
+    // 當一首音樂結束時，播放下一首
+    musicElements.forEach(musicEl => {
+        musicEl.onended = playNextMusic;
+    });
 
     function startGame() {
         startButton.style.display = 'none';
@@ -35,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         gameArea.appendChild(bg2);
         let playerScore = 0;
         let powerUpCount = 0;
+        musicElements[currentMusicIndex].play();
 
         clearInterval(backgroundScrollInterval);
         backgroundScrollInterval = setInterval(function () {
@@ -415,6 +440,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function retryGame() {
+        musicElements[currentMusicIndex].pause();
+        musicElements[currentMusicIndex].currentTime = 0;
         // 重新開始遊戲邏輯...
         // 清除所有 setInterval 和 setTimeout
         clearInterval(backgroundScrollInterval);
