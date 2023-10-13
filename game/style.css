@@ -104,6 +104,22 @@ body {
     display: none;
 }
 
+.retryButton {
+    position: absolute;
+    top: 60%;
+    /* 將圖片定位在 "Game Over" 文字下方 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: 0.3s;
+    width: 150px;
+    height: auto;
+}
+
+.retryButton:hover {
+    opacity: 0.8;
+}
+
 .gameOver {
     position: absolute;
     top: 50%;

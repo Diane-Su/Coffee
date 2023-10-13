@@ -482,6 +482,6 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(runningAnimation);
         clearTimeout(runningAnimationTimeout);
         const gameOverDiv = document.querySelector(".gameOver");
-        gameOverDiv.innerHTML = `Game Over<br>分數: ${playerScore}`;
+        gameOverDiv.innerHTML = `Game Over`;
     }
 });
